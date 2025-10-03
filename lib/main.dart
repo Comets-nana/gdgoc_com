@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gdgoc_com/screen/LoginScreen.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
-void main() async {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(fileName: ".env");
+
+  // 여기서는 initialize 안 해도 됨 (LoginScreen에서 해주므로)
   runApp(const MyApp());
 }
 

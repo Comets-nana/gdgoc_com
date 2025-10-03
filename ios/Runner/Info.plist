@@ -2,10 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>GIDClientID</key>
+    <string>141736405455-ou3hgg0cdaqu2jjggrkl2q5blahr9ele.apps.googleusercontent.com</string>
+	<key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <!-- REVERSED_CLIENT_ID 값 -->
+          <string>com.googleusercontent.apps.141736405455-ou3hgg0cdaqu2jjggrkl2q5blahr9ele</string>
+        </array>
+      </dict>
+    </array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Gdgoc Com</string>
+	<string>GDGoC.com</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
