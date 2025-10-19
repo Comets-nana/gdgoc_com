@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'dart:math' as math;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+import '../vo/user.dart';
+import 'join_screen_1.dart';
 
 class Loginscreen extends StatefulWidget {
   const Loginscreen({super.key});
@@ -48,21 +52,22 @@ class _LoginscreenState extends State<Loginscreen> {
     // ── GoogleSignIn v7 초기화 (이 파일 안에서 처리) ──
     if (!_initialized) {
       _initialized = true;
-      unawaited(_signIn
-          .initialize(
-        clientId: defaultTargetPlatform == TargetPlatform.iOS ||
-            kIsWeb
-            ? _iOSClientId
-            : null, // iOS/Web은 Client ID 필수
-        serverClientId: _serverClientId,
-      )
-          .then((_) {
-        _signIn.authenticationEvents
-            .listen(_onAuthEvent)
-            .onError((e) => debugPrint('GoogleSignIn error: $e'));
-        // 이미 로그인된 계정이 있으면 조용히 복원 시도
-        _signIn.attemptLightweightAuthentication();
-      }));
+      unawaited(
+        _signIn
+            .initialize(
+          clientId: defaultTargetPlatform == TargetPlatform.iOS || kIsWeb
+              ? _iOSClientId
+              : null, // iOS/Web은 Client ID 필수
+          serverClientId: _serverClientId,
+        )
+            .then((_) {
+          _signIn.authenticationEvents
+              .listen(_onAuthEvent)
+              .onError((e) => debugPrint('GoogleSignIn error: $e'));
+          // 이미 로그인된 계정이 있으면 조용히 복원 시도
+          _signIn.attemptLightweightAuthentication();
+        }),
+      );
     }
 
     // ─ 슬라이더 타이머 ─
@@ -79,25 +84,40 @@ class _LoginscreenState extends State<Loginscreen> {
   }
 
   // 로그인/로그아웃 이벤트 수신
+  // 로그인/로그아웃 이벤트 수신
   Future<void> _onAuthEvent(GoogleSignInAuthenticationEvent e) async {
-    final user = switch (e) {
+    // 1) 구글 유저 객체 이름 분리
+    final googleUser = switch (e) {
       GoogleSignInAuthenticationEventSignIn() => e.user,
       GoogleSignInAuthenticationEventSignOut() => null,
     };
 
-    if (user != null) {
-      // ✅ 터미널 출력
+    if (googleUser != null) {
       debugPrint('================ Google Account (v7) ================');
-      debugPrint('id         : ${user.id}');
-      debugPrint('email      : ${user.email}');
-      debugPrint('displayName: ${user.displayName}');
-      debugPrint('photoUrl   : ${user.photoUrl}');
+      debugPrint('id         : ${googleUser.id}');
+      debugPrint('email      : ${googleUser.email}');
+      debugPrint('displayName: ${googleUser.displayName}');
       debugPrint('====================================================');
 
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('환영해요, ${user.displayName ?? user.email}!')),
+
+      // 2) 우리 DTO(User)로 포장 — 변수명도 appUser로 분리
+      final appUser = User(
+        id: googleUser.id,
+        email: googleUser.email,
+        displayName: googleUser.displayName,
+        // photoUrl 등 필요하면 vo/User에 필드 추가해서 함께 넘기면 됩니다.
       );
+
+      // 3) 상태 전달하며 화면 교체
+      Future.microtask(() {
+        if (!mounted) return;
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) => JoinScreen1(user: appUser),
+          ),
+        );
+      });
     }
   }
 
@@ -124,7 +144,11 @@ class _LoginscreenState extends State<Loginscreen> {
     super.dispose();
   }
 
-  Widget _buildRichSentence(BuildContext context, String sentence, double baseFontSize) {
+  Widget _buildRichSentence(
+      BuildContext context,
+      String sentence,
+      double baseFontSize,
+      ) {
     final base = TextStyle(
       fontFamily: 'Pretendard',
       fontSize: baseFontSize,
@@ -132,7 +156,10 @@ class _LoginscreenState extends State<Loginscreen> {
       height: 1.35,
       fontWeight: FontWeight.w400,
     );
-    final bold = base.copyWith(fontWeight: FontWeight.w700, fontSize: baseFontSize + 2);
+    final bold = base.copyWith(
+      fontWeight: FontWeight.w700,
+      fontSize: baseFontSize + 2,
+    );
 
     final parts = sentence.split('**');
     final spans = <TextSpan>[];
@@ -175,7 +202,12 @@ class _LoginscreenState extends State<Loginscreen> {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Expanded(child: Image.asset(_images[i], fit: BoxFit.contain)),
+                          Expanded(
+                            child: Image.asset(
+                              _images[i],
+                              fit: BoxFit.contain,
+                            ),
+                          ),
                           const SizedBox(height: 16),
                           _buildRichSentence(context, _texts[i], baseFontSize),
                         ],
@@ -196,7 +228,9 @@ class _LoginscreenState extends State<Loginscreen> {
                       width: active ? 10 : 8,
                       height: active ? 10 : 8, // ← 원형 점(기존 80은 오타)
                       decoration: BoxDecoration(
-                        color: active ? const Color(0xFF000000) : Colors.grey.shade400,
+                        color: active
+                            ? const Color(0xFF000000)
+                            : Colors.grey.shade400,
                         shape: BoxShape.circle,
                       ),
                     );
@@ -222,7 +256,10 @@ class _LoginscreenState extends State<Loginscreen> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Image.asset("assets/images/google_logo.png", height: 22),
+                        Image.asset(
+                          "assets/images/google_logo.png",
+                          height: 22,
+                        ),
                         const SizedBox(width: 12),
                         const Text(
                           "Google 계정으로 로그인",
