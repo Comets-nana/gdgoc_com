@@ -30,11 +30,11 @@ class _JoinScreen1State extends State<JoinScreen1> {
     final bool canNext = _selected != null;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xffffffff),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: Color(0xffffffff),
+        foregroundColor: Color(0xff000000),
         title: const Text(''),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
@@ -113,7 +113,7 @@ class _JoinScreen1State extends State<JoinScreen1> {
                                 radius: 14,
                                 backgroundColor: Color(0xFF26A865),
                                 child: Icon(Icons.check,
-                                    color: Colors.white, size: 16),
+                                    color: Color(0xffffffff), size: 16),
                               ),
                             ),
                         ],
@@ -145,8 +145,8 @@ class _JoinScreen1State extends State<JoinScreen1> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
                     canNext ? const Color(0xFF26A865) : const Color(0xFFE0E0E0),
-                    foregroundColor: Colors.white,
-                    disabledForegroundColor: Colors.white.withOpacity(0.6),
+                    foregroundColor: Color(0xffffffff),
+                    disabledForegroundColor: Color(0xffffffff).withOpacity(0.6),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

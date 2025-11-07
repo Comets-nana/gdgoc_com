@@ -40,7 +40,7 @@ class _JoinScreen2State extends State<JoinScreen2> {
       context: context,
       builder: (_) => Container(
         height: 280,
-        color: Colors.white,
+        color: Color(0xffffffff),
         child: Column(
           children: [
             // 상단 완료 버튼 (기본 iOS 스타일)
@@ -104,11 +104,11 @@ class _JoinScreen2State extends State<JoinScreen2> {
         _selectedCampus != '캠퍼스 선택';
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xffffffff),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: Color(0xffffffff),
+        foregroundColor: Color(0xff000000),
         title: const Text(''),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
