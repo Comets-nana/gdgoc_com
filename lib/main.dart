@@ -3,15 +3,21 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/date_symbol_data_local.dart'; // ✅ 한국어 날짜 초기화용
 import 'package:gdgoc_com/screen/login_screen.dart';
 import 'package:gdgoc_com/screen/root_screen.dart';
 import '../vo/user.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // ✅ .env 로드
   await dotenv.load(fileName: ".env");
 
-  // ✅ iOS와 Android 각각 시스템 영역 색 통일
+  // ✅ 한국어 로케일 초기화 (TableCalendar용)
+  await initializeDateFormatting('ko_KR', null);
+
+  // ✅ iOS / Android 시스템 영역 색상 통일
   if (Platform.isIOS) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.white,
@@ -36,7 +42,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ✅ 테스트용 유저 (나중에 로그인한 유저 객체로 교체)
+    // ✅ 테스트용 유저 (로그인 연동 전용)
     final fakeUser = User(
       id: 'gildong@gmail.com',
       displayName: '홍길동',
@@ -54,9 +60,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // ✅ RootScreen으로 바로 진입
-      home: Loginscreen(),
+      home: const Loginscreen(),
       routes: {
         '/loginscreen': (context) => const Loginscreen(),
+        '/rootscreen': (context) => RootScreen(user: fakeUser),
       },
     );
   }
