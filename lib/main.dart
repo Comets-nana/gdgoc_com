@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:gdgoc_com/screen/splash_screen.dart';
 import 'package:intl/date_symbol_data_local.dart'; // ✅ 한국어 날짜 초기화용
 import 'package:gdgoc_com/screen/login_screen.dart';
 import 'package:gdgoc_com/screen/root_screen.dart';
@@ -60,7 +61,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // ✅ RootScreen으로 바로 진입
-      home: const Loginscreen(),
+      home: const SplashScreen(),
       routes: {
         '/loginscreen': (context) => const Loginscreen(),
         '/rootscreen': (context) => RootScreen(user: fakeUser),
