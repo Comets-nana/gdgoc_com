@@ -657,6 +657,8 @@ class _MainScreenState extends State<MainScreen> {
         Future.delayed(const Duration(seconds: 5), () {
           if (!_isPlaying) return;
           if (!mounted) return;
+          if (!_pageController.hasClients) return;
+
           final nextPage = (_currentPage + 1) % _images.length;
           _pageController.animateToPage(
             nextPage,
@@ -1108,7 +1110,7 @@ class _MainScreenState extends State<MainScreen> {
         {'title': 'AI 세미나', 'place': '공대 301', 'host': '김철수'},
         {'title': '스터디 네트워킹', 'place': '도서관 3층', 'host': '이영희'},
       ],
-      DateTime(2025, 12, 4): [
+      DateTime(2025, 10, 9): [
         {'title': '정기 Meetup', 'place': '산학 503', 'host': '박민수'},
       ],
     };
