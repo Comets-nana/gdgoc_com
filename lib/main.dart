@@ -9,8 +9,23 @@ import 'package:gdgoc_com/screen/login_screen.dart';
 import 'package:gdgoc_com/screen/root_screen.dart';
 import '../vo/user.dart';
 
+// ------------------------------------------------------------
+// 🔥 Firebase 추가
+// ------------------------------------------------------------
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+// ------------------------------------------------------------
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // ------------------------------------------------------------
+  // 🔥 Firebase 초기화 추가
+  // ------------------------------------------------------------
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // ------------------------------------------------------------
 
   // ✅ .env 로드
   await dotenv.load(fileName: ".env");

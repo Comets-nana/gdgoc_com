@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "529400016936",
+    "project_id": "gdgoc-com-app",
+    "storage_bucket": "gdgoc-com-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:529400016936:android:812f70350c023322d3851d",
+        "android_client_info": {
+          "package_name": "com.gdgoc_2025.gdgoc_com.gdgoc_com"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxujh3a4OkNyd7qwf3NUhP0jcJXBhN9aM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
